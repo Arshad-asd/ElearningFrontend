@@ -1,0 +1,33 @@
+.footer {
+    display: flex;
+    justify-content: space-around;
+    background-color: #000000;
+    color: aliceblue;
+    padding: 20px;
+    height: 300px;
+}
+
+.column {
+    flex: 1;
+    text-align: start;
+}
+.logo-image {
+    width: 90%;
+    height: 150px;
+    /* Add other styles for the image if needed */
+  }
+  
+  .paragraph {
+    text-align: justify;
+    text-justify: inter-word;
+    /* Add other styles for the paragraph if needed */
+  }
+  @media screen and (max-width: 768px) {
+    .footer {
+      height: auto;
+    }
+  
+    .column {
+      flex: 100%; /* Full width on smaller screens */
+    }
+  }

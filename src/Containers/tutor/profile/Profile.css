@@ -1,0 +1,93 @@
+body{
+    background-color: aliceblue;
+}
+
+    .row-with-padding{
+        padding-top: 10rem;
+    }
+    .account-settings .user-profile {
+        margin: 0 0 1rem 0;
+        padding-bottom: 1rem;
+        text-align: center;
+    }
+    .account-settings .user-profile .user-avatar {
+        margin: 0 0 1rem 0;
+    }
+    .account-settings .user-profile .user-avatar img {
+        width: 90px;
+        height: 90px;
+        border: 2px solid gold; /* Set your border color */
+        -webkit-border-radius: 50%; /* Optional: To make it a circular border */
+        -moz-border-radius: 50%;
+        border-radius: 50%;
+        transition: transform 0.4s ease; /* Add a smooth transition effect */
+      }
+      
+      .account-settings .user-profile .user-avatar img:hover {
+        transform: scale(1.2); /* Increase the scale factor for zoom effect */
+      }
+    .account-settings .user-profile h5.user-name {
+        margin: 0 0 0.5rem 0;
+    }
+    .account-settings .user-profile h6.user-email {
+        margin: 0;
+        font-size: 0.8rem;
+        font-weight: 400;
+    }
+    .account-settings .about {
+        margin: 1rem 0 0 0;
+        font-size: 0.8rem;
+        text-align: center;
+    }
+    .card {
+        background: #0030df;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        border: 0;
+        margin-bottom: 1rem;
+    }
+    .form-control {
+        border: 1px solid #596280;
+        -webkit-border-radius: 2px;
+        -moz-border-radius: 2px;
+        border-radius: 2px;
+        font-size: .825rem;
+        background: #1A233A;
+        color: #bcd0f7;
+    }
+
+    .centered-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .icon {
+        display: block;
+        margin-bottom: 10px; /* Adjust the margin as needed */
+      }
+      .colum{
+        display: flex;
+        justify-content: flex-start;
+        padding-bottom: 10px;
+       padding: 10px;
+      }
+      .colum:hover {
+        border: 1px solid rgb(212, 42, 255); 
+        border-radius: 10px;
+        background-color: rgb(255, 171, 248);
+        /* Set the desired border style and color */
+      }
+      .colum i:hover {
+        transform: scale(1.2); /* Adjust the scale factor as needed */
+        transition: transform 0.3s ease; /* Adjust the duration and timing function as needed */
+      }
+      #submit {
+        transition: transform 0.3s ease; /* Adjust the duration and timing function as needed */
+      }
+      
+      #submit:hover {
+        transform: scale(1.1); /* Adjust the scale factor as needed */
+      }
+      

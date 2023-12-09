@@ -1,0 +1,15 @@
+/* App Layout Styles */
+.content-container {
+    padding-left: 250px;
+    padding-top: 100px;
+    transition: padding-left 0.3s ease; /* Add smooth transition animation */
+  }
+
+  .content-container-no-left-padding {
+    padding-left: 60px;
+  }
+  /* Other styles for your layout */
+  .navbar{
+    position:fixed;
+    top:0;
+}
