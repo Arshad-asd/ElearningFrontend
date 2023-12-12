@@ -1,11 +1,13 @@
 import { apiSlice } from "./apiSlice";
+import { baseUrl } from "../../../Containers/Utils/urls";
 const USERS_URL ='/api'
-const baseURL = "http://127.0.0.1:8000";
+
+
 export const userApiSlice =apiSlice.injectEndpoints({
   endpoints:(builder)  =>({
     login:builder.mutation({
         query:(data)=>({
-            url:`${baseURL}${USERS_URL}/token/`,
+            url:`${baseUrl}${USERS_URL}/token/`,
             method:'POST',
             body:data
         })
