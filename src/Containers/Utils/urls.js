@@ -1,8 +1,10 @@
 
 
-const Protocol = window.location.protocol;
-const BaseDomain = 'blearning.website';
-export const baseUrl = `${Protocol}//${BaseDomain}`;
+// const Protocol = window.location.protocol;
+// const BaseDomain = 'blearning.website';
+// export const baseUrl = `${Protocol}//${BaseDomain}`;
+
+  export const baseUrl = "http://blearning.website";
 
   // export const baseUrl = "http://127.0.0.1:8000";
 
