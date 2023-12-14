@@ -68,10 +68,9 @@ const Routers = () => {
             <Route path='/admin/subscription' element={<SubscriptionManagement />} />
         </Route>
         {/* <------- Tutor Routes -------> */}
-
+        <Route path='/tutor/signup' element={<TutorRegister />}/>
         <Route path='/tutor' element={<TutorLogin />} /> 
         <Route path='' element={<PrivateRouteTutor />}>
-            <Route path='/tutor/signup' element={<TutorRegister />}/>
             <Route path="/tutor/dashboard" element={<TutorDashboard />} />
             <Route path='/tutor/profile' element={<TutorProfile />} />
             <Route path='/tutor/lives' element={<Lives />} />
