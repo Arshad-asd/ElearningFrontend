@@ -1,16 +1,19 @@
-// Plan.js
 
+// Plan.js
 import React, { useEffect, useState } from 'react';
 import instance from '../../Utils/axios';
 import './Plan.css';
 import { loadRazorpayScript, createRazorpayOrder } from '../../Utils/razorpay';
-import { useSelector } from 'react-redux';
+import { useSelector , useDispatch } from 'react-redux';
+import { updateUserInfoType } from '../../../Redux/slices/userSlice/authSlice';
+
 import { useNavigate } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 
 function Plan({ razorpayKey }) {
   const [plans, setPlans] = useState([]);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.auth || {});
   const decode = jwt_decode(userInfo.access);
   const { user_id } = decode;
@@ -100,6 +103,7 @@ function Plan({ razorpayKey }) {
 
       if (response.status === 201) {
         console.log('Subscription created successfully:', response.data);
+        dispatch(updateUserInfoType(subscriptionType));
         navigate('/success');
       } else {
         console.error('Failed to create subscription:', response.data);

@@ -25,8 +25,8 @@ function Room() {
   const role = ZegoUIKitPrebuilt.Audience;
 
 
-  const appID = 1204867769;
-  const serverSecret = '46d842d5629866223445d9d391325b89';
+  const appID = 1007895081;
+  const serverSecret = '72ffbff2322ba79844a9c3ae54eb5343';
   const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
     appID,
     serverSecret,

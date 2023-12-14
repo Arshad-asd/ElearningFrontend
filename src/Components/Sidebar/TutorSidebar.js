@@ -54,12 +54,12 @@ function TutorSidebar() {
           {isIconsOnly ? '☰' : '✖'}
         </div>
         <ul>
-        <NavLink to='/tutor/dashboard' className="active-link" style={{ textDecoration: 'none', color: 'black' }}>  
+        {/* <NavLink to='/tutor/dashboard' className="active-link" style={{ textDecoration: 'none', color: 'black' }}>  
           <li>
             <FaHome className="sidebar-icon" />
             <span className={`menu-text ${isIconsOnly ? 'hidden' : ''}`}>Dashboard</span>
           </li>
-          </NavLink>
+          </NavLink> */}
           <NavLink to='/tutor/lives' className="active-link" style={{ textDecoration: 'none', color: 'black' }}>  
           <li>
             <RiLiveLine className={`sidebar-icon ${isIconsOnly ? '' : ''}`} />

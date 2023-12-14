@@ -98,7 +98,16 @@ const AddLiveModal = ({ isOpen, onRequestClose, onAddLive }) => {
       const formattedData = {
         ...newLiveData,
         date: newLiveData.date.toISOString().split("T")[0], // Format date as YYYY-MM-DD
-        start_time: newLiveData.start_time.toISOString().split("T")[1], // Format time as hh:mm:ss
+  
+        // Format time as hh:mm:ss
+        start_time: newLiveData.start_time
+          .toLocaleTimeString("en-US", {
+            hour12: false,
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+          })
+          .split(" ")[0],
       };
   
       onAddLive(formattedData);
@@ -113,6 +122,7 @@ const AddLiveModal = ({ isOpen, onRequestClose, onAddLive }) => {
       onRequestClose();
     }
   };
+  
   
 
   return (
