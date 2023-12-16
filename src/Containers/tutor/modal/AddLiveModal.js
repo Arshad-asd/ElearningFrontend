@@ -1,3 +1,5 @@
+// AddLiveModal.js
+
 import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import { IoMdClose } from "react-icons/io";
@@ -34,9 +36,8 @@ const AddLiveModal = ({ isOpen, onRequestClose, onAddLive }) => {
 
   const fetchCourseList = async () => {
     try {
-      const response = await tutorInstance.get("/courses/"); // Replace with your actual endpoint
-      setCourseList(response.data); // Assuming the courses are directly in the response data
-      console.log(response.data, "tutor_course");
+      const response = await tutorInstance.get("/courses/");
+      setCourseList(response.data);
     } catch (error) {
       console.error("Error fetching course list:", error);
     }
@@ -47,7 +48,6 @@ const AddLiveModal = ({ isOpen, onRequestClose, onAddLive }) => {
       ...prevData,
       [name]: value,
     }));
-    // Clear errors when the user types
     setErrors((prevErrors) => ({
       ...prevErrors,
       [name]: "",
@@ -58,31 +58,26 @@ const AddLiveModal = ({ isOpen, onRequestClose, onAddLive }) => {
     let isValid = true;
     const newErrors = {};
 
-    // Validate title
     if (!newLiveData.title.trim()) {
       newErrors.title = "Please enter a title.";
       isValid = false;
     }
 
-    // Validate start_time
     if (!newLiveData.start_time) {
       newErrors.start_time = "Please choose a start time.";
       isValid = false;
     }
 
-    // Validate date
     if (!newLiveData.date) {
       newErrors.date = "Please choose a date.";
       isValid = false;
     }
 
-    // Validate access_code
     if (!newLiveData.access_code.trim()) {
       newErrors.access_code = "Please enter an access code.";
       isValid = false;
     }
 
-    // Validate course_ref
     if (!newLiveData.course_ref) {
       newErrors.course_ref = "Please select a course.";
       isValid = false;
@@ -94,12 +89,9 @@ const AddLiveModal = ({ isOpen, onRequestClose, onAddLive }) => {
 
   const handleAdd = () => {
     if (validateForm()) {
-      // Format the date and time
       const formattedData = {
         ...newLiveData,
-        date: newLiveData.date.toISOString().split("T")[0], // Format date as YYYY-MM-DD
-  
-        // Format time as hh:mm:ss
+        date: newLiveData.date.toISOString().split("T")[0],
         start_time: newLiveData.start_time
           .toLocaleTimeString("en-US", {
             hour12: false,
@@ -109,7 +101,7 @@ const AddLiveModal = ({ isOpen, onRequestClose, onAddLive }) => {
           })
           .split(" ")[0],
       };
-  
+
       onAddLive(formattedData);
       setNewLiveData({
         title: "",
@@ -122,8 +114,6 @@ const AddLiveModal = ({ isOpen, onRequestClose, onAddLive }) => {
       onRequestClose();
     }
   };
-  
-  
 
   return (
     <Modal
@@ -165,12 +155,25 @@ const AddLiveModal = ({ isOpen, onRequestClose, onAddLive }) => {
               timeIntervals={15}
               dateFormat="h:mm aa"
               className="w-full border p-2 rounded"
+              filterTime={(time) => {
+                const currentDate = new Date();
+                const selectedDateTime = new Date(newLiveData.date);
+                selectedDateTime.setHours(time.getHours(), time.getMinutes(), 0, 0);
+
+                // If the selected date and time are before the current date and time, filter it out
+                if (selectedDateTime <= currentDate) {
+                  return false;
+                }
+
+                return true;
+              }}
             />
             {errors.start_time && (
               <p className="text-red-500">{errors.start_time}</p>
             )}
           </label>
         </div>
+
 
         <div className="mb-4">
           <label className="block">
@@ -180,6 +183,7 @@ const AddLiveModal = ({ isOpen, onRequestClose, onAddLive }) => {
               onChange={(date) => handleInputChange("date", date)}
               dateFormat="MM/dd/yyyy"
               className="w-full border p-2 rounded"
+              minDate={new Date()}
             />
             {errors.date && <p className="text-red-500">{errors.date}</p>}
           </label>

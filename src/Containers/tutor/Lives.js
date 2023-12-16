@@ -1,8 +1,10 @@
+// Import necessary dependencies and components
 import React, { useState, useEffect } from 'react';
 import LiveCard from '../../Components/Cards/TutorCard/LiveCard';
 import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import AddLiveModal from './modal/AddLiveModal';
+import EditLiveModal from './modal/EditLiveModal';  // Import the EditLiveModal
 import { tutorInstance } from '../Utils/axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -10,9 +12,20 @@ import 'react-toastify/dist/ReactToastify.css';
 function Lives() {
   const [showModal, setShowModal] = useState(false);
   const [userLiveClasses, setUserLiveClasses] = useState([]);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [editModalData, setEditModalData] = useState(null);
 
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
+
+  // Function to handle adding a new live class
+  const handleOpenAddModal = () => {
+    setShowAddModal(true);
+  };
+
+  const handleCloseAddModal = () => {
+    setShowAddModal(false);
+  };
 
   const handleAddLive = async (newLiveData) => {
     try {
@@ -27,10 +40,10 @@ function Lives() {
     }
   };
 
+  // Function to fetch user's live classes
   const fetchUserLiveClasses = async () => {
     try {
-      const response = await tutorInstance.get('/lives-list/', {
-      });
+      const response = await tutorInstance.get('/lives-list/', {});
 
       // Update the state with the fetched live classes
       setUserLiveClasses(response.data);
@@ -45,6 +58,7 @@ function Lives() {
     fetchUserLiveClasses();
   }, []);
 
+  // Function to handle API errors
   const handleApiError = (error) => {
     console.error('Error:', error);
 
@@ -63,6 +77,7 @@ function Lives() {
     showToast(errorMessage, 'error');
   };
 
+  // Function to show toast notifications
   const showToast = (message, type = 'error') => {
     toast[type](message, {
       position: toast.POSITION.TOP_RIGHT,
@@ -73,6 +88,26 @@ function Lives() {
       draggable: true,
       progress: undefined,
     });
+  };
+
+  // Function to handle opening the edit modal
+  const handleEditLive = (liveClass) => {
+    setEditModalData(liveClass);
+    setShowModal(true);  // Open the modal
+  };
+
+  // Function to handle editing the live class
+  const handleEditLiveClass = async (editedLiveData) => {
+    try {
+      const response = await tutorInstance.put(`/live-class-update/${editedLiveData.id}/`, editedLiveData);
+
+      showToast('Live updated', 'success');
+      console.log('Live class updated successfully:', response.data);
+
+      fetchUserLiveClasses();  // Fetch updated live classes
+    } catch (error) {
+      handleApiError(error);
+    }
   };
 
   return (
@@ -86,7 +121,7 @@ function Lives() {
                   Live
                 </Link>
               </div>
-              <Button variant="primary" onClick={handleShowModal}>
+              <Button variant="primary" onClick={handleOpenAddModal }>
                 Add Live
               </Button>
             </div>
@@ -97,13 +132,30 @@ function Lives() {
         <div className="row mt-3">
           <div className="container grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
             {userLiveClasses.map((liveClass) => (
-              <LiveCard key={liveClass.id} liveClass={liveClass} />
+              <LiveCard
+                key={liveClass.id}
+                liveClass={liveClass}
+                onEdit={handleEditLive}
+              />
             ))}
           </div>
         </div>
       </div>
       {/* AddLiveModal component */}
-      <AddLiveModal isOpen={showModal} onRequestClose={handleCloseModal} onAddLive={handleAddLive} />
+      <AddLiveModal
+           isOpen={showAddModal}
+        onRequestClose={handleCloseAddModal}
+        onAddLive={handleAddLive}
+        editModalData={editModalData}
+      />
+
+      {/* EditLiveModal component */}
+      <EditLiveModal
+        isOpen={showModal}  // Pass the same showModal state
+        onRequestClose={handleCloseModal}
+        onEditLive={handleEditLiveClass}  // Pass the editing function
+        editedLiveData={editModalData}  // Pass the data for editing
+      />
     </div>
   );
 }
