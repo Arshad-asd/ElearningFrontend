@@ -1,16 +1,18 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import "./Navbar.css";
 import img from "../../assets/ElearningLogo.svg";
 import { MdOutlineLogout } from "react-icons/md";
-import { logout } from "../../Redux/slices/userSlice/authSlice";
+import { logout, updateUserInfoType } from "../../Redux/slices/userSlice/authSlice";
 import { toast } from "react-toastify";
+import instance from "../../Containers/Utils/axios";
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [currentActive, setCurrentActive] = useState(null);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const showToast = (message, type = "error") => {
     toast[type](message, {
       position: toast.POSITION.TOP_RIGHT,
@@ -22,9 +24,11 @@ const Navbar = () => {
       progress: undefined,
     });
   };
+
   const handleMobileMenuClick = () => {
     setMobileMenuOpen((prevState) => !prevState);
   };
+
   const { userInfo } = useSelector((state) => state.auth);
 
   const handleClick = (index) => {
@@ -33,8 +37,62 @@ const Navbar = () => {
 
   const handleLogout = () => {
     dispatch(logout());
-    showToast("logout sucessfully", "success");
+    showToast("Logout successfully", "success");
   };
+  useEffect(() => {
+    if (userInfo) {
+      const token = localStorage.getItem("userInfo")
+        ? JSON.parse(localStorage.getItem("userInfo")).access
+        : null;
+      const checkAndUpdateSubscription = async () => {
+        try {
+          const response = await instance.get(
+            "/api/user/subscription-detail/",
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          const user = response.data;
+          if (userInfo.type === "Premium") {
+            console.log("prermium");
+          } else if (user && user.expire_date) {
+            console.log("poda /.........");
+            const expireDate = new Date(user.expire_date);
+
+            if (expireDate <= new Date()) {
+              const updateResponse = await instance.patch(
+                "/api/user/update-subscription-plan/",
+                {
+                  subscription_plan: null,
+                },
+                {
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                  },
+                }
+              );
+
+              if (updateResponse.status === 200) {
+                const subscriptionType=null
+                dispatch(updateUserInfoType(subscriptionType)); 
+              } else {
+                showToast("Failed to update subscription plan", "error");
+              }
+            }
+          }
+        } catch (error) {
+          console.error("Error checking and updating subscription:", error);
+          showToast("Error checking and updating subscription", "error");
+        }
+      };
+
+      checkAndUpdateSubscription();
+    }
+  }, [dispatch, userInfo?.type, setCurrentActive]);
+
   const navLinks = [
     { id: 1, text: "Home", path: "/" },
     { id: 4, text: "Lives", path: "/lives" },
@@ -54,7 +112,7 @@ const Navbar = () => {
               <li key={link.id}>
                 <Link
                   to={link.path}
-                  className={link.id === currentActive ? "active-link" : ""}
+                  className={link.path === window.location.pathname ? "active-link" : ""}
                   onClick={() => {
                     handleClick(link.id);
                     if (window.innerWidth <= 769) {
@@ -66,14 +124,12 @@ const Navbar = () => {
                 </Link>
               </li>
             ))}
-            {/* Add a profile icon here */}
             <li>
               <Link to="/profile" className="profile-icon">
                 <i className="fas fa-user"></i>
               </Link>
             </li>
             {userInfo ? (
-              // If user is logged in, show the Logout button
               <li>
                 <button
                   className="logout-buttons rounded-lg"
@@ -83,7 +139,6 @@ const Navbar = () => {
                 </button>
               </li>
             ) : (
-              // If user is not logged in, show the Login button
               <li>
                 <Link to="/login">Login</Link>
               </li>
