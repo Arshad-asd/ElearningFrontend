@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { parse } from 'date-fns';
+import { parse } from "date-fns";
 import Modal from "react-modal";
 import { IoMdClose } from "react-icons/io";
 import DatePicker from "react-datepicker";
@@ -8,13 +8,16 @@ import { tutorInstance } from "../../Utils/axios";
 
 Modal.setAppElement("#root");
 
-const EditLiveModal = ({ isOpen, onRequestClose, onEditLive, editedLiveData }) => {
-  const [updatedLiveData, setUpdatedLiveData] = useState({
-
-  });
+const EditLiveModal = ({
+  isOpen,
+  onRequestClose,
+  onEditLive,
+  editedLiveData,
+}) => {
+  const [updatedLiveData, setUpdatedLiveData] = useState({});
   const [errors, setErrors] = useState({
     title: "",
-    start_time:"",
+    start_time: "",
     date: "",
     access_code: "",
     course_ref: "",
@@ -31,15 +34,14 @@ const EditLiveModal = ({ isOpen, onRequestClose, onEditLive, editedLiveData }) =
       id: editedLiveData?.id,
       title: editedLiveData?.title || "emptww",
       start_time: editedLiveData?.start_time
-      ? parse(editedLiveData?.start_time, "h:mm aa", new Date())
-      : new Date(),
-    date: editedLiveData?.date ? new Date(editedLiveData?.date) : new Date(),
+        ? parse(editedLiveData?.start_time, "h:mm aa", new Date())
+        : new Date(),
+      date: editedLiveData?.date ? new Date(editedLiveData?.date) : new Date(),
       status: editedLiveData?.status || "",
       access_code: editedLiveData?.access_code || "",
       course_ref: editedLiveData?.course_ref || "",
-
     });
-  }, [editedLiveData]); 
+  }, [editedLiveData]);
   const fetchCourseList = async () => {
     try {
       const response = await tutorInstance.get("/courses/");
@@ -51,13 +53,13 @@ const EditLiveModal = ({ isOpen, onRequestClose, onEditLive, editedLiveData }) =
 
   const handleInputChange = (name, value) => {
     let updatedValue = value;
-  
+
     // Format date and time values if the input is a string
     if (name === "start_time" || name === "date") {
       try {
         // Attempt to parse the date string
         const parsedDate = Date.parse(value);
-  
+
         // Check if the parsing is successful and the result is a valid date
         if (!isNaN(parsedDate) && isFinite(parsedDate)) {
           updatedValue = new Date(parsedDate);
@@ -70,7 +72,7 @@ const EditLiveModal = ({ isOpen, onRequestClose, onEditLive, editedLiveData }) =
         updatedValue = new Date(); // Set a default value if the parsing fails
       }
     }
-  
+
     setUpdatedLiveData((prevData) => ({
       ...prevData,
       [name]: updatedValue,
@@ -80,20 +82,29 @@ const EditLiveModal = ({ isOpen, onRequestClose, onEditLive, editedLiveData }) =
       [name]: "",
     }));
   };
-  
+
   const handleEdit = () => {
     if (validateForm()) {
       const formattedData = {
         ...updatedLiveData,
         date: updatedLiveData.date.toISOString().split("T")[0],
-        start_time: updatedLiveData.start_time.toISOString().split("T")[1].split(".")[0],
       };
-  
+
+      // Convert the selected time to UTC and format it
+      const start_time = new Date(updatedLiveData.start_time);
+      start_time.setMinutes(
+        start_time.getMinutes() - start_time.getTimezoneOffset()
+      );
+      formattedData.start_time = start_time
+        .toISOString()
+        .split("T")[1]
+        .split(".")[0];
+
       onEditLive(formattedData);
       onRequestClose();
     }
   };
-  
+
   const validateForm = () => {
     let isValid = true;
     const newErrors = {};
@@ -135,7 +146,6 @@ const EditLiveModal = ({ isOpen, onRequestClose, onEditLive, editedLiveData }) =
         <div className="mb-4">
           <label className="block">
             Start Time:
-
             <DatePicker
               selected={updatedLiveData.start_time}
               onChange={(date) => handleInputChange("start_time", date)}
@@ -147,7 +157,14 @@ const EditLiveModal = ({ isOpen, onRequestClose, onEditLive, editedLiveData }) =
               filterTime={(time) => {
                 const currentDate = new Date();
                 const selectedDateTime = new Date(updatedLiveData.date);
-                selectedDateTime.setHours(time.getHours(), time.getMinutes(), 0, 0);
+
+                // Set the hours and minutes based on the selected time
+                selectedDateTime.setHours(
+                  time.getHours(),
+                  time.getMinutes(),
+                  0,
+                  0
+                );
 
                 // If the selected date and time are before the current date and time, filter it out
                 if (selectedDateTime <= currentDate) {

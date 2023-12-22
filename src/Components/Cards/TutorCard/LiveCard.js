@@ -1,10 +1,11 @@
+// LiveCard.js
 import React, { useState, useEffect } from 'react';
 import { Card, Button } from 'react-bootstrap';
-import { FaEdit } from 'react-icons/fa'; // Import the edit icon
+import { FaEdit, FaTrash } from 'react-icons/fa'; // Import the edit and trash icons
 import { tutorInstance } from '../../../Containers/Utils/axios';
 import { useNavigate } from 'react-router-dom';
 
-const LiveCard = ({ liveClass, onEdit }) => {
+const LiveCard = ({ liveClass, onEdit, onDelete }) => {
   const [isJoinButtonEnabled, setIsJoinButtonEnabled] = useState(false);
   const navigate = useNavigate();
 
@@ -16,13 +17,9 @@ const LiveCard = ({ liveClass, onEdit }) => {
     const stringDateandTime = `${date} ${start_time}`;
     const combinedDate = new Date(stringDateandTime);
 
-    // Check if the date is the same as the current date
     const isSameDate = currentDate.toDateString() === combinedDate.toDateString();
-
-    // Check if the time is greater than the current time
     const isTimeGreaterThanCurrent = combinedDate <= currentDate;
 
-    // Enable the join button if both conditions are met
     if (isSameDate && isTimeGreaterThanCurrent) {
       setIsJoinButtonEnabled(true);
     } else {
@@ -41,12 +38,29 @@ const LiveCard = ({ liveClass, onEdit }) => {
       changeStatus(id);
       navigate(`/tutor/room/${roomId}/${id}`);
     }
-    // Optionally, you can show a message or handle the case where the button is disabled.
+  };
+
+  const handleDeleteClick = (id) => {
+    // Call the onDelete function passed as a prop
+    onDelete(id);
   };
 
   return (
-<Card style={{ margin: '8px', backgroundColor: '#edf7f7', position: 'relative' }}>
+    <Card style={{ margin: '8px', backgroundColor: '#edf7f7', position: 'relative' }}>
       {/* Edit icon in the top-right corner */}
+      <Button
+        variant="link"
+        style={{
+          position: 'absolute',
+          top: '5px',
+          right: '30px',
+        }}
+        onClick={() => onEdit(liveClass)}
+      >
+        <FaEdit size={20} color="#ffc107" />
+      </Button>
+
+      {/* Delete icon in the top-right corner */}
       <Button
         variant="link"
         style={{
@@ -54,9 +68,9 @@ const LiveCard = ({ liveClass, onEdit }) => {
           top: '5px',
           right: '5px',
         }}
-        onClick={() => onEdit(liveClass)}
+        onClick={() => handleDeleteClick(id)}
       >
-        <FaEdit size={20} color="#ffc107" />
+        <FaTrash size={20} color="red" />
       </Button>
 
       <Card.Body>
