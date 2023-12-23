@@ -47,7 +47,8 @@ const CourseAddModal = ({ isOpen, onRequestClose, onAddCourse }) => {
         ...prevData,
         [name]: files[0],
       }));
-    } else {
+    } 
+    else {
       setNewCourseData((prevData) => ({
         ...prevData,
         [name]: value,
@@ -206,16 +207,18 @@ const CourseAddModal = ({ isOpen, onRequestClose, onAddCourse }) => {
           </label>
         </div>
         <div className="w-full p-2 relative">
-          <label>
-            Preview Video
-            <div className="flex items-center">
-              <input
+        <input
                 type="file"
                 name="preview_video"
                 accept=".mp4"
                 onChange={handleInputChange}
                 className="hidden"
               />
+          <label>
+         
+            Preview Video
+            <div className="flex items-center">
+              
               <AiOutlineVideoCameraAdd
                 onClick={() =>
                   document.querySelector('input[name="preview_video"]').click()
@@ -239,16 +242,17 @@ const CourseAddModal = ({ isOpen, onRequestClose, onAddCourse }) => {
           </label>
         </div>
         <div className="w-full p-2 relative">
-          <label>
-            Banner Image
-            <div className="flex items-center">
-              <input
+        <input
                 type="file"
                 name="banner_image"
                 accept="image/*"
                 onChange={handleInputChange}
                 className="hidden"
               />
+          <label>
+            Banner Image
+            <div className="flex items-center">
+             
               <AiOutlineVideoCameraAdd
                 onClick={() =>
                   document.querySelector('input[name="banner_image"]').click()
