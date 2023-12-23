@@ -73,7 +73,7 @@ function TutorLogin() {
         // Check if the role is "tutor" before navigating
         if (role === "tutor") {
           dispatch(setTutorCredentials({ user_id: decodedAccessToken.user_id, role, ...res.data }));
-          navigate('/tutor/dashboard');
+          navigate('/tutor/lives');
         } else {
           showToast("Invalid role", 'error');
         }
