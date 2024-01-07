@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../../../Containers/tutor/profile/Profile.css";
+import { MdOutlineLockReset } from "react-icons/md";
 import EditForm from "./EditForm";
 import instance from "../../Utils/axios";
 import SubscriptionDetails from "./SubscriptionDetails";
@@ -63,24 +64,12 @@ const {first_name} = userData
                           Edit
                         </span>
                       </div>
-                      {/* <div className="colum">
-                       <i className="fas fa-certificate"style={{color:"gold"}}></i> 
+                      <div className="colum">
+                      <MdOutlineLockReset style={{ color: 'blue', fontSize: '23px' }} />
                       <span className="icon"style={{marginLeft:"10px"}}>
-                       Badge
+                       Reset Password
                       </span>
-                      </div> */}
-                      {/* <div className="colum">
-                      <i className="fas fa-eye"></i>
-                      <span className="icon"style={{marginLeft:"10px"}}>
-                         Views
-                      </span>
-                      </div> */}
-                      {/* <div className="colum">
-                      <i className="fas fa-users"></i> 
-                      <span className="icon" style={{ paddingLeft: "10px" }}>
-                        Followers
-                      </span>
-                      </div> */}
+                      </div> 
                     </div>
                   </div>
                 </div>

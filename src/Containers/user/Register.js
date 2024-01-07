@@ -74,7 +74,6 @@ function Register() {
             ...prevErrors,
             email: 'Invalid email format',
           }));
-          showToast('Invalid email format');
         }
         break;
       case 'mobileNumber':
@@ -83,7 +82,6 @@ function Register() {
             ...prevErrors,
             mobileNumber: 'Invalid mobile number format',
           }));
-          showToast('Invalid mobile number format');
         }
         break;
       case 'password':
