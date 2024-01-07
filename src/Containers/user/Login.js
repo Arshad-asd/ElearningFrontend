@@ -93,9 +93,9 @@ function UserLogin() {
   return (
     <div
       className="login template d-flex justify-content-center align-items-center vh-100 "
-      style={{ backgroundColor: "#EFD3B5" }}
+      style={{ backgroundColor: 'rgb(157, 85, 234)' }}
     >
-      <div className="form_container p-5 rounded bg-white">
+      <div className="form_container p-5 rounded "style={{backgroundColor:'#6a379a7d'}}>
         <form onSubmit={submitHandler}>
           <h3 className="text-center">Sign In</h3>
           <div className="mb-3">

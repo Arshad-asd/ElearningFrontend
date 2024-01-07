@@ -190,8 +190,8 @@ function TutorRegister() {
 
   return (
     <div>
-      <div className='signup template d-flex justify-content-center align-items-center vh-100 ' style={{ backgroundColor: '#EFD3B5' }}>
-        <div className='form_container p-5 rounded bg-white'>
+      <div className='signup template d-flex justify-content-center align-items-center vh-100 ' style={{ backgroundColor: 'rgb(157, 85, 234)' }}>
+        <div className='form_container p-5 rounded 'style={{backgroundColor:'#6a379a7d'}}>
           <form onSubmit={handleSubmit}>
             <h3 className='text-center'>Tutor Sign Up</h3>
             <div className='mb-3'>
