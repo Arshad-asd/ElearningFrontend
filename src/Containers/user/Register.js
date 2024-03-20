@@ -21,9 +21,10 @@ function Register() {
   };
 
   const validateMobileNumber = (mobileNumber) => {
-    const mobileRegex = /^\+\d{1,3}-\d{3,14}$/;
+    const mobileRegex = /^\d{10}$/; // Match exactly 10 digits
     return mobileRegex.test(mobileNumber);
   };
+  
 
   const validatePassword = (password) => {
     const lowercaseRegex = /[a-z]/;
@@ -56,6 +57,13 @@ function Register() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+
+    
+  let newValue = value.trim(); // Remove leading and trailing whitespace
+
+  if (name === 'mobileNumber' && newValue.length <= 10) {
+    newValue = '+91-' + newValue; // Add '+91-' prefix
+  }
 
     setFormData({
       ...formData,
