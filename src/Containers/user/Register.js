@@ -134,7 +134,6 @@ function Register() {
 
     // Validate form fields
     const newErrors = {};
-
     if (!validateEmail(formData.email)) {
       newErrors.email = 'Invalid email format';
     }
@@ -163,15 +162,20 @@ function Register() {
       Object.values(newErrors).forEach((error) => showToast(error));
       return;
     }
+    const formattedPhoneNumber = formData.mobileNumber.startsWith('+91-')
+  ? formData.mobileNumber // If mobileNumber already starts with '+91-', use it as is
+  : '+91-' + formData.mobileNumber; // Otherwise, add '+91-' prefix
+
 
     try {
       // Make a POST request to your backend registration endpoint using the Axios instance
       const response = await axios.post('/api/user/register/', {
         email: formData.email,
-        phone_number: formData.mobileNumber,
+        phone_number: formattedPhoneNumber,
         password: formData.password,
         password2: formData.confirmPassword,
       });
+      console.log(formData,'dataaaaaaaaaaaaa')
 
       // Assuming your backend returns some data upon successful registration
       const data = response.data;
