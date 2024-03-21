@@ -134,6 +134,11 @@ function TutorLogin() {
           <p className='text-end mt-2'>
       {/* <Link style={{color:"black",textDecoration:'none'}} to='/tutor/login/otpLoginEmail' className="ms-2">Otp Login</Link> */}
       </p>
+      <p className='text-end mt-2'>
+              <Link
+               style={{ color: "black", textDecoration: "none" }}
+               to='/login' className='ms-2'>Are you a student? Login</Link>
+            </p> 
     </div>
   </div>
   )

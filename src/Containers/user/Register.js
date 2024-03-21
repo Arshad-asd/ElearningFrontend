@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from "react-router-dom";
 import axios from '../../Containers/Utils/axios'; // Adjust the path accordingly
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -12,6 +12,7 @@ function Register() {
     password: '',
     confirmPassword: '',
   });
+  const navigate = useNavigate();
 
   const [validationErrors, setValidationErrors] = useState({});
 
@@ -175,7 +176,6 @@ function Register() {
         password: formData.password,
         password2: formData.confirmPassword,
       });
-      console.log(formData,'dataaaaaaaaaaaaa')
 
       // Assuming your backend returns some data upon successful registration
       const data = response.data;
@@ -184,6 +184,7 @@ function Register() {
       if (response.status === 201) {
         // Registration successful
         console.log('Registration successful:', data);
+        navigate("/login");
         showToast('Registration successful', 'success');
       } else {
         // Registration failed
@@ -230,6 +231,7 @@ function Register() {
             <p className='text-end mt-2'>
               <Link to='/login' className='ms-2'>Sign In</Link>
             </p>
+            
           </form>
         </div>
       </div>

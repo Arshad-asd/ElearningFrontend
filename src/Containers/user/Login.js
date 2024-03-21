@@ -159,8 +159,11 @@ function UserLogin() {
               Otp Login
             </Link>
           </p> */}
-          <p></p>
-        </div>
+            <p className='text-end mt-2'>
+              <Link
+               style={{ color: "black", textDecoration: "none" }}
+               to='/tutor' className='ms-2'>Are you a tutor? Login</Link>
+            </p>        </div>
       </div>
     </div>
   );
