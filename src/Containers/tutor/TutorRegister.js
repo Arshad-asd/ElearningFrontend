@@ -125,7 +125,11 @@ function TutorRegister() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    let newValue = value.trim(); // Remove leading and trailing whitespace
 
+    if (name === 'mobileNumber' && newValue.length <= 10) {
+      newValue = '+91-' + newValue; // Add '+91-' prefix
+    }
     // Validate form fields
     const newErrors = {};
 
