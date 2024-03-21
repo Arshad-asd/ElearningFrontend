@@ -20,7 +20,7 @@ function TutorRegister() {
   };
 
   const validateMobileNumber = (mobileNumber) => {
-    const mobileRegex = /^\+\d{1,3}-\d{3,14}$/;
+    const mobileRegex = /^\d{10}$/; // Match exactly 10 digits
     return mobileRegex.test(mobileNumber);
   };
 
