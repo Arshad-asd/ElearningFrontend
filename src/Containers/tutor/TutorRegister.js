@@ -11,9 +11,11 @@ function TutorRegister() {
     password: '',
     confirmPassword: '',
   });
-
-  const [validationErrors, setValidationErrors] = useState({});
   const navigate = useNavigate();
+
+  
+  const [validationErrors, setValidationErrors] = useState({});
+
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -23,6 +25,7 @@ function TutorRegister() {
     const mobileRegex = /^\d{10}$/; // Match exactly 10 digits
     return mobileRegex.test(mobileNumber);
   };
+  
 
   const validatePassword = (password) => {
     const lowercaseRegex = /[a-z]/;
@@ -50,7 +53,6 @@ function TutorRegister() {
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
-      
     });
   };
 
@@ -74,7 +76,6 @@ function TutorRegister() {
             ...prevErrors,
             email: 'Invalid email format',
           }));
-          showToast('Invalid email format');
         }
         break;
       case 'mobileNumber':
@@ -83,7 +84,6 @@ function TutorRegister() {
             ...prevErrors,
             mobileNumber: 'Invalid mobile number format',
           }));
-          showToast('Invalid mobile number format');
         }
         break;
       case 'password':
@@ -125,11 +125,7 @@ function TutorRegister() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let newValue = value.trim(); // Remove leading and trailing whitespace
 
-    if (name === 'mobileNumber' && newValue.length <= 10) {
-      newValue = '+91-' + newValue; // Add '+91-' prefix
-    }
     // Validate form fields
     const newErrors = {};
 
